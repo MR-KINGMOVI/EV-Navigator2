@@ -1,0 +1,48 @@
+================================================================================
+فهرست فایل‌های ایجادشده، اصلاح‌شده و حذف‌شده در نسخه V12.6.0
+================================================================================
+
+الف) فایل‌های جدید ایجادشده (Created Files):
+1. `domain/src/main/java/com/evnavigator/iran/domain/policy/DomainClock.kt` (16 خط `wc -l`)
+2. `domain/src/main/java/com/evnavigator/iran/domain/policy/FreshnessPolicyEvaluator.kt` (145 خط `wc -l`)
+3. `domain/src/main/java/com/evnavigator/iran/domain/intelligence/trip/StationPortEligibilityEvaluator.kt` (287 خط `wc -l`)
+4. `domain/src/main/java/com/evnavigator/iran/domain/intelligence/trip/SegmentPhysicsEnergyCalculator.kt` (381 خط `wc -l`)
+5. `domain/src/main/java/com/evnavigator/iran/domain/journey/multistop/WaypointSequenceSolver.kt` (291 خط `wc -l`)
+6. `scripts/v12_6_static_sanity_lint.mjs` (179 خط `wc -l`)
+7. `V12_6_STATION_DATA_QUALITY_REPORT_FA.txt`
+8. `V12_6_ENGINEERING_CHANGELOG_FA.txt`
+9. `V12_6_ISSUE_REGISTER_FA.txt`
+10. `V12_6_ARCHITECTURE_AUDIT_FA.txt`
+11. `V12_6_CHANGED_FILES.txt`
+
+ب) فایل‌های اصلاح‌شده (Modified Files):
+1. `app/build.gradle.kts` (`versionCode = 126`, `versionName = "12.6.0"`)
+2. `domain/src/main/java/com/evnavigator/iran/domain/policy/EvDomainPolicyConfig.kt` (104 خط `wc -l`)
+3. `domain/src/main/java/com/evnavigator/iran/domain/intelligence/trip/PredictiveChargingOrchestrator.kt` (443 خط `wc -l`)
+4. `domain/src/main/java/com/evnavigator/iran/domain/intelligence/trip/CorridorStationProjector.kt` (261 خط `wc -l`)
+5. `domain/src/main/java/com/evnavigator/iran/domain/intelligence/energy/PredictiveEnergyOrchestrator.kt`
+6. `domain/src/main/java/com/evnavigator/iran/domain/intelligence/context/DataProvenanceStatus.kt` (143 خط `wc -l`)
+7. `domain/src/main/java/com/evnavigator/iran/domain/model/catalog/CatalogDomainModels.kt` (512 خط `wc -l`)
+8. `domain/src/main/java/com/evnavigator/iran/domain/model/Route.kt`
+9. `domain/src/main/java/com/evnavigator/iran/domain/model/trip/intelligence/ChargingPlanCandidate.kt` (121 خط `wc -l`)
+10. `domain/src/main/java/com/evnavigator/iran/domain/model/trip/intelligence/TripIntelligenceRequest.kt` (40 خط `wc -l`)
+11. `domain/src/main/java/com/evnavigator/iran/domain/model/trip/intelligence/ArrivalSOCprediction.kt` (18 خط `wc -l`)
+12. `domain/src/main/java/com/evnavigator/iran/domain/model/trip/intelligence/DataQualityAndFreshness.kt` (14 خط `wc -l`)
+13. `domain/src/main/java/com/evnavigator/iran/domain/journey/multistop/MultiStopWaypointOptimizer.kt` (427 خط `wc -l`)
+14. `domain/src/main/java/com/evnavigator/iran/domain/journey/multistop/MultiStopRouteCoordinator.kt`
+15. `data/src/main/java/com/evnavigator/iran/data/seed/IranStationsCatalog.kt` (947 خط `wc -l`)
+16. `data/src/main/java/com/evnavigator/iran/data/seed/IranStationsCatalogRegionalExpansion.kt` (471 خط `wc -l`)
+17. `data/src/main/java/com/evnavigator/iran/data/seed/DatabaseSeeder.kt`
+18. `data/src/main/java/com/evnavigator/iran/data/mapper/CatalogDomainMappers.kt`
+19. `core/src/main/java/com/evnavigator/iran/service/EnergyPredictionService.kt`
+20. `feature/src/main/java/com/evnavigator/iran/ui/screen/VehiclePhysicsFactory.kt`
+21. `app/src/main/java/com/evnavigator/iran/automotive/session/AutomotiveSession.kt`
+22. `app/src/main/java/com/evnavigator/iran/automotive/screens/AutomotiveChargersScreen.kt`
+23. `app/src/main/java/com/evnavigator/iran/automotive/screens/AutomotiveCorridorsAndDiagnosticsScreens.kt`
+24. `domain/src/test/java/com/evnavigator/iran/domain/architecture/V11ArchitectureAndDataTrustTest.kt` (609 خط `wc -l`)
+25. `data/src/test/java/com/evnavigator/iran/data/seed/IranStationsCatalogIntegrityTest.kt` (116 خط `wc -l`)
+26. `README_FA.md`
+
+ج) فایل‌های حذف‌شده (Deleted Files):
+1. `scripts/v12_5_verification_suite.mjs` (حذف و جایگزینی با `scripts/v12_6_static_sanity_lint.mjs`)
+================================================================================

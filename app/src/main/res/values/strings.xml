@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">EV Navigator Iran</string>
+    <string name="tab_map">Map</string>
+    <string name="tab_plan">Plan</string>
+    <string name="tab_chargers">Chargers</string>
+    <string name="tab_garage">Garage</string>
+    <string name="tab_activity">Activity</string>
+    <string name="search_hint">Search city, charging station, or destination...</string>
+    <string name="start_navigation">Start Live Navigation</string>
+    <string name="exit_navigation">Exit Navigation</string>
+</resources>

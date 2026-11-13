@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Certified production Android Auto Host Allowlist -->
+    <string-array name="certified_hosts_allowlist">
+        <item>com.google.android.projection.gearhead</item>
+    </string-array>
+</resources>

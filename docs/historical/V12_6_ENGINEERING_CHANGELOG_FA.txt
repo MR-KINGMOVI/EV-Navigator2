@@ -1,0 +1,35 @@
+================================================================================
+گزارش جامع تغییرات مهندسی (Engineering Changelog) — نسخه V12.6.0
+پروژه: EV Navigator Iran (versionCode = 126, versionName = "12.6.0")
+================================================================================
+
+۱. رفع خطاهای بحرانی کامپایل و سلامت برنامه شارژ (P0-1 تا P0-5)
+--------------------------------------------------------------------------------
+- [P0-1] تعریف کامل ثابت‌های سیاست دامنه در `EvDomainPolicyConfig.kt`:
+  افزودن `HIGHWAY_REFERENCE_CRUISE_SPEED_KMH = 95.0`، `ARTERIAL_REFERENCE_SPEED_KMH = 70.0`، `URBAN_REFERENCE_SPEED_KMH = 45.0`، `MIN_VALID_SPEED_KMH = 5.0`، `MAX_VALID_SPEED_KMH = 140.0`، `PORT_LIVE_STATUS_TTL_MS = 900_000L` (۱۵ دقیقه)، `STATION_STATIC_SPEC_TTL_MS = 2_592_000_000L` (۳۰ روز)، `DEFAULT_MAX_ROAD_DETOUR_METERS = 25_000.0` و `DEFAULT_MAX_CROSS_TRACK_METERS = 15_000.0`.
+- [P0-2] حذف کامل ضریب ساختگی `bestCrossTrackMeters * 2.7` و سرعت ثابت `50.0 km/h` در `CorridorStationProjector.kt`:
+  تفکیک کامل `estimatedCrossTrackMeters` (مقایسه با `maxCrossTrackMeters`) از `verifiedRoadDetourMeters` (مقایسه با `maxRoadDetourMeters`) و محاسبه مسیر رفت و برگشت واقعی در صورت وجود `RoadRouteProvider` با برچسب `DetourCalculationSource`.
+- [P0-3] جلوگیری از صدور `VERIFIED_FEASIBLE` برای پورت‌های `UNKNOWN` در `StationPortEligibilityEvaluator.kt`:
+  ایجاد enum صریح `PlanRecommendationStatus` (`VERIFIED_FEASIBLE`, `ESTIMATED_FEASIBLE`, `NEEDS_VERIFICATION`, `INFEASIBLE`, `INSUFFICIENT_DATA`) و الزام هر ۶ شرط (تایید ایستگاه، مدرک بیرونی، تازگی ایستگاه، وضعیت `AVAILABLE` پورت، تازگی تلمتری پورت و سازگاری صریح کانکتور) برای `VERIFIED_FEASIBLE`.
+- [P0-4] بازمهندسی اصالت داده در `IranStationsCatalog.kt` و `CatalogDomainModels.kt`:
+  افزودن `SourceEvidence`، `VerificationMethod` و `SpecProvenance`، تفکیک `internalRegistryUrn` از `sourceUrl`، تفکیک `catalogGeneratedAtEpochMs` از `verifiedAt`، ارتقای نسخه دیتاست به `"2026.3-V12.6"` و جداسازی ۹۲ ایستگاه عملیاتی (`getProductionStationsAndPorts()`) از ۱۰۳ ایستگاه Seed (`UNVERIFIED`).
+- [P0-5] پیاده‌سازی سیاست واقعی انقضای زمانی (TTL) در `FreshnessPolicyEvaluator.kt` و `DomainClock.kt`:
+  رد تایم‌استمپ‌های صفر، منفی یا آینده (> ۵ دقیقه Clock Skew) و علامت‌گذاری تایم‌استمپ‌های قدیمی (مانند سال ۲۰۲۴ در سال ۲۰۲۶) به عنوان `STALE` حتی در صورت `validationStatus == "VERIFIED"`.
+
+۲. رفع نقض‌های صحت دامنه، فیزیک انرژی و بهینه‌ساز چندتوقفه (P1-6 تا P1-14)
+--------------------------------------------------------------------------------
+- [P1-6] حذف حدس توان شارژ AC از روی توان DC (`min(22.0, vehicleMaxDcKw)`) و حذف پیش‌فرض‌های پنهان `?: 60.0` و `?: 11.0` در `CatalogDomainModels.kt`، `EnergyPredictionService.kt` و `VehiclePhysicsFactory.kt`.
+- [P1-7] حذف کامل منطق حدس کانکتور از روی برند خودرو (`KMC`, `JAC`, `BYD`)؛ تطابق کانکتور منحصراً بر اساس لیست صریح کانکتورهای خودرو انجام می‌شود.
+- [P1-8 & P1-10] جایگزینی مصرف یکنواخت `whPerMeter` با انتگرال‌گیری قطعه به قطعه در `SegmentPhysicsEnergyCalculator.kt`:
+  محاسبه مستقل کار جاذبه روی شیب، مقاومت غلتشی، درگ آیرودینامیک تصحیح‌شده با ارتفاع و باد، تلفات توقف-حرکت ترافیک، افت بازیابی انرژی ترمزی (Regen) در دمای سرد و SoC بالا (۸۵٪ تا ۹۸٪) و مصرف سیستم تهویه (HVAC) به همراه بازه `[minEnergyWh, expectedEnergyWh, maxEnergyWh]`.
+- [P1-9] اصلاح برچسب‌های `InputOrigin` در `DataProvenanceStatus.kt` و `SegmentPhysicsEnergyCalculator.buildExplicitContext`:
+  عدم ارتقای خودکار مقادیر ورودی کاربر یا تخمینی به `VERIFIED_DATABASE`.
+- [P1-11] بازنویسی تست‌های رفتاری JUnit در `V11ArchitectureAndDataTrustTest.kt` و `IranStationsCatalogIntegrityTest.kt` برای پوشش کامل سناریوهای A تا F.
+- [P1-12] حذف برچسب‌های ساختگی `VERIFIED` در رشته‌های نمایشی Android Auto (`AutomotiveSession.kt` و `AutomotiveCorridorsAndDiagnosticsScreens.kt`).
+- [P1-13 & P1-14] تجزیه `MultiStopWaypointOptimizer.kt` (۴۲۷ خط `wc -l`) و استخراج `WaypointSequenceSolver.kt` (۲۹۱ خط `wc -l`) به همراه افزودن پارامترهای خودرو و مسیریابی به `CacheKey`.
+
+۳. اصلاح گزارش‌دهی، شمارش خطوط `wc -l` و اسکریپت بررسی ایستا (P2-15 تا P2-17)
+--------------------------------------------------------------------------------
+- [P2-15 & P2-16] ثبت دقیق شمارش خطوط بر اساس کاراکتر خط جدید (`wc -l`) و گزارش صادقانه فایل‌های بزرگ‌تر از ۵۰۰ خط همراه با دلیل فنی.
+- [P2-17] جایگزینی اسکریپت قدیمی با `scripts/v12_6_static_sanity_lint.mjs` با برچسب صریح `STATIC_SOURCE_AND_STRUCTURE_LINT`.
+================================================================================

@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">ناوبری خودروهای برقی ایران</string>
+    <string name="tab_map">نقشه</string>
+    <string name="tab_plan">مسیریابی</string>
+    <string name="tab_chargers">ایستگاه‌ها</string>
+    <string name="tab_garage">گاراژ</string>
+    <string name="tab_activity">فعالیت‌ها</string>
+    <string name="search_hint">جستجوی شهر، ایستگاه شارژ یا مقصد...</string>
+    <string name="start_navigation">شروع ناوبری زنده</string>
+    <string name="exit_navigation">خروج از ناوبری</string>
+</resources>

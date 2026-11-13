@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme for Jetpack Compose. -->
+    <style name="Base.Theme.EVNavigatorIran" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+    </style>
+
+    <style name="Theme.EVNavigatorIran" parent="Base.Theme.EVNavigatorIran" />
+</resources>

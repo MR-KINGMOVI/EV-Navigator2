@@ -1,0 +1,89 @@
+================================================================================
+جدول ثبت و ردیابی ۱۷ ایراد مهندسی (Issue Register) — نسخه V12.6.0
+================================================================================
+
+1. [P0-1] ثابت مفقود `EvDomainPolicyConfig.HIGHWAY_REFERENCE_CRUISE_SPEED_KMH`
+   - وضعیت: FIXED
+   - فایل‌ها: `EvDomainPolicyConfig.kt`, `SegmentPhysicsEnergyCalculator.kt`, `PredictiveChargingOrchestrator.kt`
+   - توضیح: تعریف ثابت‌های سرعت مرجع آزادراهی/شریانی/شهری، بازه مجاز سرعت و سقف‌های TTL و انحراف در `EvDomainPolicyConfig.kt` و اولویت‌بندی سرعت قطعه و زمان مسیر قبل از fallback سیاستی.
+
+2. [P0-2] ضریب ساختگی `bestCrossTrackMeters * 2.7` و سرعت ثابت `50.0 km/h` در `CorridorStationProjector`
+   - وضعیت: FIXED
+   - فایل‌ها: `CorridorStationProjector.kt`, `ChargingPlanCandidate.kt`, `TripIntelligenceRequest.kt`
+   - توضیح: حذف کامل ضریب `2.7` و مخرج `50.0`، تفکیک `verifiedRoadDetourMeters` از `estimatedCrossTrackMeters` و افزودن `DetourCalculationSource`.
+
+3. [P0-3] صدور وضعیت `VERIFIED_FEASIBLE` برای ایستگاه‌های با پورت `UNKNOWN`
+   - وضعیت: FIXED
+   - فایل‌ها: `StationPortEligibilityEvaluator.kt`, `ChargingPlanCandidate.kt`, `PredictiveChargingOrchestrator.kt`
+   - توضیح: الزام هر ۶ شرط اصالت و تازگی برای `VERIFIED_FEASIBLE`؛ بازگرداندن `NEEDS_VERIFICATION` و `isVerifiedPlan = false` در صورت `port.status == "UNKNOWN"`.
+
+4. [P0-4] برچسب `VERIFIED` بدون مدرک بیرونی و استفاده از `now` به عنوان زمان تایید در `IranStationsCatalog`
+   - وضعیت: FIXED
+   - فایل‌ها: `IranStationsCatalog.kt`, `IranStationsCatalogRegionalExpansion.kt`, `CatalogDomainModels.kt`, `CatalogDomainMappers.kt`, `DatabaseSeeder.kt`
+   - توضیح: تفکیک `internalRegistryUrn` از `sourceUrl`، تفکیک `catalogGeneratedAtEpochMs` از `verifiedAt`، افزودن `SourceEvidence` و جداسازی ۹۲ ایستگاه عملیاتی (`getProductionStationsAndPorts()`) از ۱۰۳ ایستگاه Seed (`UNVERIFIED`).
+
+5. [P0-5] عدم اعمال واقعی انقضای زمانی (TTL) روی ایستگاه‌ها و پورت‌ها
+   - وضعیت: FIXED
+   - فایل‌ها: `DomainClock.kt`, `FreshnessPolicyEvaluator.kt`, `EvDomainPolicyConfig.kt`
+   - توضیح: پیاده‌سازی `FreshnessPolicyEvaluator` با TTL سی‌روزه ایستگاه و ۱۵ دقیقه‌ای پورت، رد تایم‌استمپ‌های صفر/منفی/آینده و منقضی شدن تایم‌استمپ‌های ۲۰۲۴ در سال ۲۰۲۶.
+
+6. [P1-6] حدس زدن توان شارژ AC از روی توان DC (`min(22.0, vehicleMaxDcKw)`)
+   - وضعیت: FIXED
+   - فایل‌ها: `StationPortEligibilityEvaluator.kt`, `PredictiveChargingOrchestrator.kt`, `CatalogDomainModels.kt`, `EnergyPredictionService.kt`, `VehiclePhysicsFactory.kt`
+   - توضیح: جداسازی کامل `dcMaxChargingPowerKw` و `acMaxChargingPowerKw` و رد پورت AC در صورت نامشخص بودن توان AC خودرو (`AC_MAX_POWER_UNKNOWN`).
+
+7. [P1-7] حدس زدن نوع کانکتور از روی برند خودرو (`KMC`, `JAC`, `BYD`)
+   - وضعیت: FIXED
+   - فایل‌ها: `StationPortEligibilityEvaluator.kt`, `CorridorStationProjector.kt`, `PredictiveChargingOrchestrator.kt`
+   - توضیح: حذف کامل حدس کانکتور از روی نام برند و الزام لیست صریح کانکتورهای خودرو.
+
+8. [P1-8] مدل مصرف انرژی یکنواخت `whPerMeter` روی کل مسیر در `PredictiveChargingOrchestrator`
+   - وضعیت: FIXED
+   - فایل‌ها: `SegmentPhysicsEnergyCalculator.kt`, `PredictiveChargingOrchestrator.kt`
+   - توضیح: انتگرال‌گیری قطعه به قطعه فیزیک طولی خودرو شامل شیب، درگ اصلاح‌شده با ارتفاع/دما/باد، مقاومت غلتشی، ترافیک، HVAC و محدودیت Regen در دمای سرد و SoC بالا.
+
+9. [P1-9] برچسب‌گذاری نادرست `InputOrigin.VERIFIED_DATABASE` در `buildExplicitContext`
+   - وضعیت: FIXED
+   - فایل‌ها: `DataProvenanceStatus.kt`, `SegmentPhysicsEnergyCalculator.kt`, `TripIntelligenceRequest.kt`
+   - توضیح: افزودن `USER_INPUT` و `NETWORK_PROVIDER` به `InputOrigin` و اختصاص `VERIFIED_DATABASE` منحصراً به رکوردهای تاییدشده کاتالوگ.
+
+10. [P1-10] نادیده گرفتن شیب، دمای محیط و عدم‌قطعیت در شبیه‌سازی قطعات
+    - وضعیت: FIXED
+    - فایل‌ها: `SegmentPhysicsEnergyCalculator.kt`, `PredictiveEnergyOrchestrator.kt`, `PredictiveChargingOrchestrator.kt`
+    - توضیح: محاسبه `[minEnergyWh, expectedEnergyWh, maxEnergyWh]` و `[arrivalSocMinPercent, arrivalSocNominalPercent, arrivalSocMaxPercent]` در هر قطعه.
+
+11. [P1-11] تست‌های ضعیف یا مبتنی بر متن در `V11ArchitectureAndDataTrustTest`
+    - وضعیت: FIXED
+    - فایل‌ها: `V11ArchitectureAndDataTrustTest.kt`, `IranStationsCatalogIntegrityTest.kt`
+    - توضیح: پیاده‌سازی تست‌های رفتاری واقعی برای سناریوهای A تا F.
+
+12. [P1-12] تناقض رشته‌های وضعیت در Android Auto (`AutomotiveSession.kt`)
+    - وضعیت: FIXED
+    - فایل‌ها: `AutomotiveSession.kt`, `AutomotiveCorridorsAndDiagnosticsScreens.kt`, `AutomotiveChargersScreen.kt`
+    - توضیح: حذف برچسب‌های ساختگی `VERIFIED` از رشته‌های وضعیت و استفاده از ایستگاه‌های عملیاتی.
+
+13. [P1-13] کلید کش ناقص و ادعاهای اغراق‌آمیز در `MultiStopWaypointOptimizer`
+    - وضعیت: FIXED
+    - فایل‌ها: `MultiStopWaypointOptimizer.kt`, `WaypointSequenceSolver.kt`, `MultiStopRouteCoordinator.kt`
+    - توضیح: افزودن `vehicleMassBucketKg` و `avoidUnpaved` به `CacheKey` و اصلاح مستندات به الگوریتم واقعی Branch-and-Bound ($N \le 7$) و Nearest-Neighbor + 2-Opt ($N > 7$).
+
+14. [P1-14] عبور فایل‌های بازطراحی‌شده از سقف خطوط مجاز
+    - وضعیت: FIXED
+    - فایل‌ها: `PredictiveChargingOrchestrator.kt` (443L), `CorridorStationProjector.kt` (261L), `StationPortEligibilityEvaluator.kt` (287L), `SegmentPhysicsEnergyCalculator.kt` (381L), `MultiStopWaypointOptimizer.kt` (427L), `WaypointSequenceSolver.kt` (291L)
+    - توضیح: تجزیه ماژولار و رعایت دقیق سقف خطوط بر اساس `wc -l`.
+
+15. [P2-15] گزارش نادرست تعداد خطوط فایل‌ها (اختلاف ۱ خطی `split('\n')` با `wc -l`)
+    - وضعیت: FIXED
+    - فایل‌ها: `scripts/v12_6_static_sanity_lint.mjs`, مستندات V12.6
+    - توضیح: شمارش دقیق کاراکترهای `\n` مطابق `wc -l`.
+
+16. [P2-16] ادعای نادرست درباره نبود فایل‌های بالای ۵۰۰ خط
+    - وضعیت: FIXED
+    - فایل‌ها: `V12_6_ARCHITECTURE_AUDIT_FA.txt`
+    - توضیح: ثبت شفاف فایل‌های بالای ۵۰۰ خط (`IranStationsCatalog.kt`, `OsmPbfGraphImporter.kt`, `MapScreen.kt`) همراه با دلیل فنی.
+
+17. [P2-17] معرفی اسکریپت Regex به عنوان تست واحد در `scripts/v12_5_verification_suite.mjs`
+    - وضعیت: FIXED
+    - فایل‌ها: حذف `scripts/v12_5_verification_suite.mjs` و ایجاد `scripts/v12_6_static_sanity_lint.mjs`
+    - توضیح: تغییر نام و طبقه‌بندی صریح به `STATIC_SOURCE_AND_STRUCTURE_LINT` و گزارش جداگانه وضعیت اجرای تست‌های JVM/Gradle.
+================================================================================

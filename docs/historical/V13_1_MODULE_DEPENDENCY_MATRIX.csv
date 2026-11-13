@@ -1,0 +1,13 @@
+module,depends_on_modules,layer,has_android_dependencies,primary_responsibility
+:app,":core;:core:energy;:core:roadprofile;:core:routing;:core:tripplanner;:core:weather;:data;:domain;:feature;:design-system;:navigation",application,true,"Hilt DI root (IntelligenceModule), MainActivity, Android Auto CarAppService & Screens"
+:feature,":domain;:core;:core:routing;:core:weather;:data;:design-system;:navigation",presentation,true,"Jetpack Compose screens & ViewModels (Map, TripIntelligence, ActiveJourney, Garage, Chargers)"
+:navigation,":domain;:core;:core:routing",navigation,true,"Turn-by-turn navigation state machine, map-matching, off-route detection, voice guidance"
+:data,":domain;:core",data,true,"Room database, DAOs, repositories, CatalogDomainMappers, IranStationsCatalog, IranVehiclesCatalog"
+:core:routing,":domain;:core;:core:roadprofile;:core:elevation",core_routing,false,"Valhalla, GraphHopper, OSRM, Offline Contraction Hierarchies routing providers & RouteIntegrityValidator"
+:core:tripplanner,":domain;:core;:core:energy;:core:routing;:core:roadprofile",core_tripplanner,false,"Legacy/core trip planner adapters delegating to domain intelligence"
+:core:energy,":domain;:core;:core:roadprofile",core_energy,false,"Core energy adapters delegating to domain EnergyPredictionService & CanonicalEnergyEngine"
+:core:roadprofile,":domain;:core",core_roadprofile,false,"DEM elevation sampling and road grade segmentation"
+:core:weather,":domain;:core",core_weather,false,"Corridor weather interpolation, temporal alignment, and cache persistence"
+:core,":domain",core_shared,false,"Shared utilities, spatial indexing, and base abstractions"
+:domain,"none (pure Kotlin)",domain_ssot,false,"Canonical SSOT engines (CanonicalEnergyEngine, EnergyPredictionService, CanonicalTravelTimeEngine, RouteIntegrityValidator, PredictiveChargingOrchestrator, MultiStopRouteCoordinator)"
+:design-system,"none (Compose UI primitives)",design_system,true,"Material3 RTL typography, glassmorphic surfaces, and theme tokens"

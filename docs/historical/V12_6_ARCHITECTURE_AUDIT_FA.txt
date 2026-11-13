@@ -1,0 +1,38 @@
+================================================================================
+گزارش ممیزی معماری، اصالت داده و تست — نسخه V12.6.0
+================================================================================
+
+۱. شمارش دقیق خطوط فایل‌های کلیدی بر اساس `wc -l` (P1-14, P2-15, P2-16)
+--------------------------------------------------------------------------------
+فایل‌های دامنه و برنامه‌ریز هوشمند شارژ (تمامی زیر سقف ۴۵۰ خط):
+- `domain/.../policy/EvDomainPolicyConfig.kt`: 104 خط (`wc -l`)
+- `domain/.../policy/DomainClock.kt`: 16 خط (`wc -l`)
+- `domain/.../policy/FreshnessPolicyEvaluator.kt`: 145 خط (`wc -l`)
+- `domain/.../intelligence/trip/PredictiveChargingOrchestrator.kt`: 443 خط (`wc -l`) [سقف: 450]
+- `domain/.../intelligence/trip/CorridorStationProjector.kt`: 261 خط (`wc -l`) [سقف: 300]
+- `domain/.../intelligence/trip/StationPortEligibilityEvaluator.kt`: 287 خط (`wc -l`) [سقف: 300]
+- `domain/.../intelligence/trip/SegmentPhysicsEnergyCalculator.kt`: 381 خط (`wc -l`) [سقف: 400]
+- `domain/.../journey/multistop/MultiStopWaypointOptimizer.kt`: 427 خط (`wc -l`) [سقف: 450]
+- `domain/.../journey/multistop/WaypointSequenceSolver.kt`: 291 خط (`wc -l`) [سقف: 300]
+- `feature/.../ui/screen/map/components/MapOsmOverlayRenderer.kt`: 370 خط (`wc -l`) [سقف: 450]
+
+گزارش شفاف فایل‌های بالای ۵۰۰ خط در پروژه و دلیل فنی آن‌ها (P2-16):
+- `data/.../seed/IranStationsCatalog.kt`: 947 خط (`wc -l`) — جدول داده استاتیک ایستگاه‌های شارژ مناطق ۱ تا ۸ ایران (همراه با `IranStationsCatalogRegionalExpansion.kt` با 471 خط برای مناطق ۹ تا ۱۲).
+- `core/routing/.../importer/OsmPbfGraphImporter.kt`: 693 خط (`wc -l`) — هماهنگ‌کننده خوانش فایل‌های `.osm.pbf`، `.osm.xml` و `.evrn` (پروتکل باینری Protobuf در `OsmProtobufWireCodec.kt` با 491 خط و سازنده گراف در `OsmTopologyGraphBuilder.kt` با 361 خط تفکیک شده‌اند).
+- `feature/.../ui/screen/MapScreen.kt`: 525 خط (`wc -l`) — صفحه یکپارچه نقشه Compose (رندرر لایه‌های OSM در `MapOsmOverlayRenderer.kt` با 370 خط جدا شده است).
+- `domain/.../model/catalog/CatalogDomainModels.kt`: 512 خط (`wc -l`) — مجموعه مدل‌های داده کاتالوگ، `SourceEvidence`، `SpecProvenance` و مپرهای فیزیک خودرو.
+- `domain/src/test/.../V11ArchitectureAndDataTrustTest.kt`: 609 خط (`wc -l`) — مجموعه جامع تست‌های رفتاری JUnit برای سناریوهای A تا F.
+
+۲. وضعیت اجرای تست‌های JVM و اسکریپت بررسی ایستا (P1-11 & P2-17)
+--------------------------------------------------------------------------------
+الف) تست‌های واحد رفتاری Kotlin/JVM (`./gradlew test`):
+- وضعیت اجرا در این کانتینر: `BLOCKED_NO_JDK_IN_CONTAINER`
+- علت دقیق محیطی: در محیط لینوکس فعلی هیچ باینری کامپایلر جاوا یا کاتلین (`java`, `javac`, `kotlinc`) نصب نشده است (خروجی `which java javac kotlinc` خالی است و اجرای `./gradlew test` با پیام استاندارد `ERROR: JAVA_HOME is not set and no 'java' command could be found in your PATH` متوقف می‌شود).
+- تست‌های رفتاری نوشته‌شده برای اجرا روی JDK 17:
+  1. `domain/src/test/java/com/evnavigator/iran/domain/architecture/V11ArchitectureAndDataTrustTest.kt` (شامل تست‌های رفتاری سناریوهای A تا F)
+  2. `data/src/test/java/com/evnavigator/iran/data/seed/IranStationsCatalogIntegrityTest.kt` (تست‌های اصالت داده، `SourceEvidence` و جداسازی ۹۲ ایستگاه عملیاتی از ۱۰۳ ایستگاه Seed)
+
+ب) اسکریپت بررسی ایستای ساختار و کد (`node scripts/v12_6_static_sanity_lint.mjs`):
+- طبقه‌بندی صریح: `STATIC_SOURCE_AND_STRUCTURE_LINT` (تست واحد JVM نیست)
+- وضعیت اجرا: `7 passed, 0 failed (Exit Code 0)`
+================================================================================
