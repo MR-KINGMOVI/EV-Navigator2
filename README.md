@@ -1,15 +1,51 @@
-# EV Navigator Iran — V13.2.0 (`versionCode = 132`)
+# EV-Navigator
 
-**Release Gate Status:** `BLOCKED / NOT VERIFIED` (Static Sanity & Provenance Audit: `PASS`; Offline Container Gradle Build/Test Execution: `BLOCKED / NOT VERIFIED`)
+**Version 13.3.1 | Build 134**
 
-## Key Engineering Highlights in V13.2.0
-1. **Strict OSRM Route Parsing (`OsrmOnlineRouteClient.kt` & `RealRoadModels.kt`):**
-   - Eliminated all synthetic route fallbacks (`polyline.size * 50.0`, `polyline.size * 2.0`, `finalDistanceMeters / 25.0`, road-name speed guessing, `speedLimitKmh = 100`, and fake `RealRoadManeuver` creation).
-   - Routes with geometry but missing `steps` are returned as `OsrmRouteCompleteness.INSUFFICIENT_ROUTE_DETAILS` with `hasTurnByTurnGuidance = false` and `0` maneuvers.
-2. **Elimination of Hidden `90.0 km/h` & `22.0 °C` Fallbacks (`EnergyPredictionService.kt` & `PredictiveEnergyOrchestrator.kt`):**
-   - Reference model assumptions are explicitly tagged as `MODEL_ASSUMPTION` with reduced confidence and propagated `energyUncertaintyRangeWh`.
-3. **Per-Station Independent Verification & Explicit Currency Tariffs (`IranStationsCatalog.kt` & `ChargingTariffAndProvenanceModels.kt`):**
-   - Removed global `LAST_OPERATOR_RELEASE_VERIFIED_AT_EPOCH_MS = 1762819200000L`.
-   - Each station uses independent verification records, `UrlVerificationStatus.LINK_UNCHECKED`, automatic `STALE` transition after TTL expiry, and currency-explicit `ChargingTariffSchedule` (`IRR_RIAL` / `IRT_TOMAN`).
-4. **Reproducible Static Sanity Check (`scripts/v13_2_static_sanity_lint.mjs`):**
-   - Run `node scripts/v13_2_static_sanity_lint.mjs` from the project root.
+An advanced open-source Android electric vehicle navigation platform focused on intelligent route planning, physics-based energy prediction, charging infrastructure intelligence, and vehicle-aware trip optimization.
+
+## Core Features
+
+- Intelligent EV route planning and navigation.
+- Physics-based energy consumption prediction.
+- Battery state-of-charge estimation and arrival SOC prediction.
+- Charging station intelligence and connector compatibility.
+- Vehicle-specific specifications and energy models.
+- Weather-aware energy calculations.
+- Modular Android architecture.
+- Android Auto and automotive integration development.
+- Data integrity, uncertainty tracking, and explicit UNKNOWN handling.
+
+## Engineering Principles
+
+- Real data over fabricated placeholders.
+- Explicit uncertainty instead of misleading precision.
+- No silent fallback values that compromise prediction integrity.
+- Modular, testable, maintainable architecture.
+- Performance, reliability, and a polished user experience.
+
+## Project Status
+
+Current application version: **13.3.1**
+
+Current version code: **134**
+
+The project is under active development. Build, integration, and automated test results must be verified against the current source revision.
+
+## Technology
+
+- Kotlin
+- Android SDK
+- Jetpack Compose
+- Gradle
+- Room
+- Hilt
+- Kotlin Coroutines
+
+## Repository
+
+https://github.com/MR-KINGMOVI/EV-Navigator2
+
+## License
+
+See the repository's LICENSE file for licensing terms.
