@@ -80,6 +80,10 @@ Build, automated tests, static analysis, and device-level validation are separat
 
 https://github.com/MR-KINGMOVI/EV-Navigator2
 
+## Releases
+
+https://github.com/MR-KINGMOVI/EV-Navigator2/releases
+
 ## Contributions
 
 Contributions, bug reports, technical reviews, and architecture improvements are welcome.
