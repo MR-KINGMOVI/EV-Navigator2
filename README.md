@@ -1,28 +1,34 @@
-# EV-Navigator
+# EV-Navigator Iran
 
-**Version 13.3.1 | Build 134**
+**Version 13.3.6 | Build [ACTUAL_BUILD_NUMBER]**
 
-An advanced open-source Android Electric Vehicle (EV) navigation platform designed to combine intelligent route planning, physics-based energy prediction, charging infrastructure intelligence, and vehicle-aware trip optimization.
+An advanced Android Electric Vehicle (EV) navigation platform designed to combine intelligent route planning, physics-based energy prediction, battery intelligence, charging infrastructure information, and vehicle-aware trip optimization.
+
+EV-Navigator aims to provide reliable and transparent electric vehicle trip planning, with particular attention to Iranian roads, vehicle specifications, and charging infrastructure.
 
 ## Core Features
 
 - **Intelligent Route Planning:** Route calculation, route evaluation, and navigation-oriented decision support.
-- **Physics-Based Energy Prediction:** Vehicle-aware energy consumption estimation using driving and environmental parameters.
-- **Battery Intelligence:** State of Charge (SOC) estimation and predicted battery level at destination.
-- **Charging Infrastructure:** Charging station information, connector compatibility, charging power, and charging-aware trip planning.
-- **Vehicle Database:** Structured EV specifications and configurable vehicle profiles.
+- **Physics-Based Energy Prediction:** Vehicle-aware energy consumption estimation using physical and environmental parameters.
+- **Battery Intelligence:** Battery State of Charge (SOC) estimation and predicted battery level at destination.
+- **Charging-Aware Trip Planning:** Charging-stop planning based on vehicle characteristics, battery state, and charging requirements.
+- **Charging Infrastructure:** Charging station information, connector compatibility, charging power, and charging-related data.
+- **Vehicle Database:** Structured electric vehicle specifications and configurable vehicle profiles.
 - **Weather Integration:** Environmental conditions incorporated into energy consumption models.
-- **Navigation Architecture:** Modular routing, road profile, map matching, and navigation components.
-- **Automotive Integration:** Development support for Android Auto and automotive experiences.
+- **Navigation Architecture:** Modular routing, road profiles, map matching, and navigation components.
+- **Automotive Integration:** Android Auto and automotive experience development support.
 
 ## Engineering Principles
+
+Reliability and data transparency are central engineering priorities.
 
 - Prefer real, traceable data over fabricated or unsupported values.
 - Represent missing information explicitly using UNKNOWN states.
 - Track uncertainty instead of presenting assumptions as verified facts.
 - Avoid silent fallback values that can compromise energy predictions.
 - Maintain modular, testable, and maintainable architecture.
-- Prioritize reliability, performance, and a polished user experience.
+- Separate verified, estimated, assumed, stale, and unavailable information.
+- Prioritize correctness, performance, and a consistent user experience.
 
 ## Technology Stack
 
@@ -37,7 +43,7 @@ An advanced open-source Android Electric Vehicle (EV) navigation platform design
 
 ## Project Architecture
 
-The project is organized into modular components:
+The project follows a modular architecture:
 
 - `app` — Android application and entry points.
 - `core` — Shared core infrastructure.
@@ -52,22 +58,23 @@ The project is organized into modular components:
 
 ## Current Project Status
 
-- Application version: **13.3.1**
-- Version code: **134**
+- Application version: **13.3.6**
+- Version code: **[ACTUAL_BUILD_NUMBER]**
 - Development status: Active development.
-- Static integrity checks: 7 checks passed in the local V13.2 static audit.
-- Android build and automated test status: Must be verified against the current source revision.
+- Repository: Public GitHub repository.
+- Release: See the GitHub Releases page for published versions.
 
-Passing static checks does not imply that the Android application has successfully compiled or passed every test.
+Build, automated tests, static analysis, and device-level validation are separate verification stages. Their status must be determined from the actual results for the corresponding source revision.
 
 ## Development Goals
 
 1. Improve route calculation reliability.
 2. Increase energy prediction accuracy and transparency.
-3. Expand vehicle and charging infrastructure coverage.
-4. Improve navigation usability and performance.
-5. Strengthen automated testing and data integrity.
-6. Prepare the application for reliable real-world usage.
+3. Improve battery and charging calculations.
+4. Expand vehicle and charging infrastructure coverage.
+5. Improve navigation usability and performance.
+6. Strengthen automated testing and data integrity.
+7. Improve maintainability, security, and release quality.
 
 ## Repository
 
@@ -77,7 +84,7 @@ https://github.com/MR-KINGMOVI/EV-Navigator2
 
 Contributions, bug reports, technical reviews, and architecture improvements are welcome.
 
-Please verify changes with the relevant tests before submitting pull requests.
+Please review the existing architecture and verify relevant tests before submitting pull requests.
 
 ## License
 
