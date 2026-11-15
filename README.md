@@ -1,6 +1,6 @@
 # EV-Navigator Iran
 
-**Version 13.3.6 | Build [ACTUAL_BUILD_NUMBER]**
+**Version 13.3.6 | Build [139]**
 
 An advanced Android Electric Vehicle (EV) navigation platform designed to combine intelligent route planning, physics-based energy prediction, battery intelligence, charging infrastructure information, and vehicle-aware trip optimization.
 
